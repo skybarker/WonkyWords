@@ -1,4 +1,4 @@
-import LoginForm from "./components/LoginForm";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         </header>
         <nav className="bg-green-400 py-2 mb-8">Links go here</nav>
         <div className="flex-grow">
-          <LoginForm />
+          <Outlet />
         </div>
         <footer className="bg-green-400">This is the footer</footer>
       </div>
