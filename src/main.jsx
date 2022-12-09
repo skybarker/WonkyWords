@@ -23,11 +23,18 @@ const checkLogin = async ({ request }) => {
   return response.length ? redirect(`/welcome`) : redirect("/");
 };
 
+const loadStories = async () => {
+  const stories = await apiService.getAllStories();
+  console.log(stories);
+  return stories;
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: loadStories,
     shouldRevalidate: () => {
       return false;
     },
