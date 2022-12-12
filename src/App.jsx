@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import Nav from "./components/Nav";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
             Wonky Words
           </h1>
         </header>
-        <nav className="bg-green-400 py-2 mb-8">Links go here</nav>
+        <Nav />
         <div className="flex-grow">
           <Outlet />
         </div>
