@@ -27,6 +27,17 @@ export default {
     return response.json();
   },
 
+  async createUser(user) {
+    const URL = BASE_URL_JSON_SERVER + "users";
+    await fetch(URL, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+  },
+
   async getAllStories() {
     const URL = BASE_URL_JSON_SERVER + "stories";
     const response = await fetch(URL);
