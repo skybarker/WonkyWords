@@ -38,8 +38,20 @@ export default {
     });
   },
 
+  async deleteUser(id) {
+    const URL = BASE_URL_JSON_SERVER + "users/" + id;
+    await fetch(URL, {
+      method: "DELETE",
+    });
+  },
+
   async getAllStories() {
     const URL = BASE_URL_JSON_SERVER + "stories";
+    const response = await fetch(URL);
+    return response.json();
+  },
+  async getStory(id) {
+    const URL = BASE_URL_JSON_SERVER + "stories/" + id;
     const response = await fetch(URL);
     return response.json();
   },
