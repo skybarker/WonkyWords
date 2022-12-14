@@ -1,9 +1,14 @@
+import PropTypes from "prop-types";
 import Input from "./Input";
-import { Form } from "react-router-dom";
+import { Form, Outlet } from "react-router-dom";
 
-export default function RegisterForm() {
+export default function RegisterForm({ onSubmit }) {
   return (
-    <Form method="post">
+    <Form
+      className="flex items-center text-center"
+      method="post"
+      onSubmit={onSubmit}
+    >
       <p>Please enter the following information:</p>
       <Input id="username" label="Username" labelClass="not-sr-only" />
       <Input
@@ -14,7 +19,14 @@ export default function RegisterForm() {
       />
       <Input id="firstName" label="First Name" labelClass="not-sr-only" />
       <Input id="lastName" label="Last Name" labelClass="not-sr-only" />
-      <button type="submit">Register</button>
+      <Outlet />
     </Form>
   );
 }
+RegisterForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
+
+RegisterForm.defaultProps = {
+  onSubmit: () => {},
+};

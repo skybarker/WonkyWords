@@ -6,23 +6,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App";
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./components//LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import StoryForm from "./components/StoryForm";
 import ErrorPage from "./error-page";
 import "./index.css";
-import Welcome from "./routes/Welcome";
 import About from "./routes/About";
+import Welcome from "./routes/Welcome";
 import apiService from "./services/api.service";
+import Profile from "./components/Profile";
 
 const checkLogin = async ({ request }) => {
   const formData = await request.formData();
-  const username = formData.get("username");
-  const password = formData.get("password");
-
-  const response = await apiService.getUser(username, password);
-
-  return response.length ? redirect(`/welcome`) : redirect("/loginError");
+  return formData;
 };
+
 
 const createUser = async ({ request }) => {
   const formData = await request.formData();
@@ -32,14 +30,24 @@ const createUser = async ({ request }) => {
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
   };
-  console.log(user);
   await apiService.createUser(user);
-  return null;
+  const response = await apiService.getUser(user.username, user.password);
+  console.log(response);
+  return redirect(`/profile/` + response[0].id);
 };
 
 const loadStories = async () => {
   const stories = await apiService.getAllStories();
   return stories;
+};
+
+const processResponses = async ({ request, params }) => {
+  const formData = await request.formData();
+  return formData;
+};
+
+const updateUser = async ({ params }) => {
+  return null;
 };
 
 const router = createBrowserRouter([
@@ -48,20 +56,19 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     loader: loadStories,
-    shouldRevalidate: () => {
-      return false;
-    },
+    shouldRevalidate: false,
+
     id: "app",
     children: [
       {
-        index: "/login",
+        index: "/",
         element: <LoginForm />,
         action: checkLogin,
         children: [
           {
             path: "/loginError",
             element: (
-              <div>
+              <div className="text-center ">
                 Oh no, that didn't work...please try again or click register if
                 you need to create an account!
               </div>
@@ -73,6 +80,40 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterForm />,
         action: createUser,
+        children: [
+          {
+            index: "/",
+            element: (
+              <button className="mt-2" type="submit">
+                Register
+              </button>
+            ),
+          },
+        ],
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile />,
+        action: updateUser,
+        children: [
+          {
+            index: "/",
+            element: (
+              <div className="mt-2">
+                <button className="mx-2" type="submit">
+                  Update
+                </button>
+                <button
+                  className="mx-2"
+                  data-method="DELETE"
+                  data-disabled="true"
+                >
+                  Delete
+                </button>
+              </div>
+            ),
+          },
+        ],
       },
       {
         path: "/welcome",
@@ -81,6 +122,12 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/story/:id",
+        element: <StoryForm />,
+        shouldRevalidate: false,
+        action: processResponses,
       },
     ],
   },
