@@ -10,11 +10,12 @@ export default function Input({
   handleInput,
 }) {
   return (
-    <div className="flex flex-col gap-y-2 w-4/5 border-2">
+    <div className="text-black max-w-min w-fit">
       <label htmlFor={id} className={labelClass}>
         {label}
       </label>
       <input
+        className="w-fit"
         id={id}
         name={id}
         placeholder={label}

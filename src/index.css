@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply text-white;
+  }
+
+  Form {
+    @apply flex flex-col max-w-md w-2/3 border-2 p-6 gap-y-4 rounded-md h-min border-orange-400 !important;
+  }
+
+  Button {
+    @apply bg-green-400 px-4 rounded-md !important;
+  }
+
+  Form * {
+    @apply rounded !important;
+  }
+}
